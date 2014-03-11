@@ -1,0 +1,65 @@
+thal = fixed_defect
+  |  ca <= 0.5negative
+  |  ca > 0.5positive
+thal = normal
+  |  thalach <= 111.5positive
+  |  thalach > 111.5
+  |    |  age <= 55.5
+  |    |    |  trestbps <= 113.5
+  |    |    |    |  oldpeak <= 0.3
+  |    |    |    |    |  cp = asymptpositive
+  |    |    |    |    |  cp = atyp_anginanegative
+  |    |    |    |    |  cp = non_anginal
+  |    |    |    |    |    |  age <= 44.0negative
+  |    |    |    |    |    |  age > 44.0positive
+  |    |    |    |    |  cp = typ_anginanegative
+  |    |    |    |  oldpeak > 0.3negative
+  |    |    |  trestbps > 113.5
+  |    |    |    |  oldpeak <= 3.55negative
+  |    |    |    |  oldpeak > 3.55positive
+  |    |  age > 55.5
+  |    |    |  chol <= 248.5
+  |    |    |    |  oldpeak <= 2.8negative
+  |    |    |    |  oldpeak > 2.8positive
+  |    |    |  chol > 248.5
+  |    |    |    |  sex = female
+  |    |    |    |    |  cp = asympt
+  |    |    |    |    |    |  age <= 58.0negative
+  |    |    |    |    |    |  age > 58.0
+  |    |    |    |    |    |    |  chol <= 362.0positive
+  |    |    |    |    |    |    |  chol > 362.0negative
+  |    |    |    |    |  cp = atyp_anginanegative
+  |    |    |    |    |  cp = non_anginalnegative
+  |    |    |    |    |  cp = typ_anginanegative
+  |    |    |    |  sex = male
+  |    |    |    |    |  age <= 65.5positive
+  |    |    |    |    |  age > 65.5
+  |    |    |    |    |    |  age <= 66.5negative
+  |    |    |    |    |    |  age > 66.5positive
+thal = reversable_defect
+  |  cp = asympt
+  |    |  oldpeak <= 0.65
+  |    |    |  chol <= 240.5
+  |    |    |    |  chol <= 192.0
+  |    |    |    |    |  age <= 62.0positive
+  |    |    |    |    |  age > 62.0negative
+  |    |    |    |  chol > 192.0negative
+  |    |    |  chol > 240.5positive
+  |    |  oldpeak > 0.65positive
+  |  cp = atyp_angina
+  |    |  age <= 47.0negative
+  |    |  age > 47.0
+  |    |    |  trestbps <= 109.0negative
+  |    |    |  trestbps > 109.0positive
+  |  cp = non_anginal
+  |    |  oldpeak <= 1.9
+  |    |    |  trestbps <= 122.5negative
+  |    |    |  trestbps > 122.5
+  |    |    |    |  chol <= 232.5
+  |    |    |    |    |  trestbps <= 129.0positive
+  |    |    |    |    |  trestbps > 129.0negative
+  |    |    |    |  chol > 232.5positive
+  |    |  oldpeak > 1.9positive
+  |  cp = typ_angina
+  |    |  oldpeak <= 0.7positive
+  |    |  oldpeak > 0.7negative
