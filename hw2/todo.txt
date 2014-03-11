@@ -14,4 +14,8 @@ ARFF
 
 might be good to first test on naive bayes
 
+Naive Bayes:
+
+P(class|attributes) = p(attributes|class)p(class)/p(attributes)
+    p(attributes|class) = p(attributes,class)/p(class)
 
