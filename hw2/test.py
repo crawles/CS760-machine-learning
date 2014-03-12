@@ -1,21 +1,22 @@
-#from collections import defaultdict
-#
-#def tree(): return defaultdict(tree)
-#
-#users = tree()
-#users['harold']['username'] = 'hrldcpr'
-#users['handler']['username'] = 'matthandlersux'
-#
-#n = data.Nodes()
-#n.node['key1'] = 'val1'
-#n.node['val1']['subkey1'] = 'subval2' 
-#n.node['val1']['subval2']['subval3'] = 'subval3' 
-#
-#t=train.Train(train_set)
-#n = 0
-#for i in train_set:
-#    if i['class'] == 'metastases':
-#        n = n + 1
-#
-t=train.Train(train_set)
+class Test():
 
+    def __init__(self,dataset,train_nodes):
+        self.dataset = dataset
+        self.nodes = train_nodes
+
+    def naive_bayes(self):
+        pass
+
+    def cond_product(self,instance,Y):
+        attr_keys = list(instance.attr_val_set.keys())
+        attr_keys.remove('class')
+        result = 1.0
+        for Yy in Y:
+            #calc P(Yy)
+            prob = self.nodes[(Y,Yy)]
+            result = result*prob
+            for X in attr_keys:
+                cond_prob = self.nodes[(X,instance.attr_val_set(Xx))][(Y,Yy)]
+                result = result*cond_prob
+
+        

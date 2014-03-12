@@ -16,7 +16,8 @@ class Train():
             Yy = {}
 
         num_Xx = total - self.key_val_not_in_dataset(dict(Xx.items() + Yy.items()))
-        return num_Xx/num_Yy
+        #TODO check this
+        return (num_Xx+1)/(num_Yy+1)
 
     def key_val_not_in_dataset(self,key_vals):
         """ P(!Xx,!Yy,...) """
@@ -37,12 +38,15 @@ class Train():
         attr_keys = list(self.dataset.attr_val_set.keys())
         attr_keys.remove('class')
         for Yy in self.dataset.attr_val_set['class']:
-            print 1111
+            #P(Yy)
             self.nodes[('class',Yy)] = self.calc_P({'class':Yy},None)
             for X in attr_keys:
                 for Xx in self.dataset.attr_val_set[X]:
-                    self.nodes[{(X,Xx)}][('class',Yy)] = self.calc_P({X:Xx},{'class':Yy})
+                    #P(Xx|Yy)
+                    self.nodes[(X,Xx)][('class',Yy)] = self.calc_P({X:Xx},{'class':Yy}) 
                     for X1 in attr_keys:
                         for Xx1 in self.dataset.attr_val_set[X1]:
-                            self.nodes[{(X,Xx),(X1,Xx1)}][('class',Yy)] = self.calc_P({X:Xx},{X:Xx1},{'class':Yy})
+                            #P(Xx,Xx1,|Yy)
+                            self.nodes[((X,Xx),(X1,Xx1))][('class',Yy)] = self.calc_P({X:Xx},{X:Xx1,'class':Yy}) 
                     
+
