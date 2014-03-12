@@ -28,7 +28,21 @@ class Train():
                     break
         return n
 
+    def get_key_val(self,key):
+        return {key:self.dataset.attr_val_set(key)}
+
     def calc_all_cond_prob(self):
-        """ generate all P(Xx|Yy) where Yy = class_val1 or class_val2 or None """
-        for Yy in self.dataset.attr_val_set['class'] + [None]:
-             for Xx in self.dataset.
+        """ calc both P(Xx|Yy) and P(Xx,Xx1,|Yy) 
+        where Xx = attributes, Yy = class_vals """
+        attr_keys = list(self.dataset.attr_val_set.keys())
+        attr_keys.remove('class')
+        for Yy in self.dataset.attr_val_set['class']:
+            print 1111
+            self.nodes[('class',Yy)] = self.calc_P({'class':Yy},None)
+            for X in attr_keys:
+                for Xx in self.dataset.attr_val_set[X]:
+                    self.nodes[{(X,Xx)}][('class',Yy)] = self.calc_P({X:Xx},{'class':Yy})
+                    for X1 in attr_keys:
+                        for Xx1 in self.dataset.attr_val_set[X1]:
+                            self.nodes[{(X,Xx),(X1,Xx1)}][('class',Yy)] = self.calc_P({X:Xx},{X:Xx1},{'class':Yy})
+                    

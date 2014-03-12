@@ -1,14 +1,7 @@
 from collections import defaultdict
 import itertools
-def tree(): return defaultdict(tree)
 
-class Nodes:
-    
-    def __init__(self):
-        self.node = tree()
-
-    #def add_node(self,attribute):
-    #    self.node[attribute]
+def Nodes(): return defaultdict(Nodes)
         
 class Dataset:
 
