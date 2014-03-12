@@ -1,16 +1,27 @@
+from collections import defaultdict
+def tree(): return defaultdict(tree)
+
+class Nodes:
+    
+    def __init__(self):
+        self.node = tree()
+
+    def add_node(self,attribute):
+        self.node[attribute]
+        
 class Dataset:
 
-        def __init__(self):
-            self.instances = []
-            self.attr_val_set = {}
+    def __init__(self):
+        self.instances = []
+        self.attr_val_set = {}
 
-        def add_attributes(self,attributes):
-            """ add all attribtues at once  """
-            self.attributes =  self.attributes + attributes
+    def add_attributes(self,attributes):
+        """ add all attribtues at once  """
+        self.attributes =  self.attributes + attributes
 
-        def add_instances(self,instances):
-            """ add instance list """
-            self.instances = self.instances + instances
+    def add_instances(self,instances):
+        """ add instance list """
+        self.instances = self.instances + instances
 
 class Instance:
 
