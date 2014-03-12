@@ -6,14 +6,17 @@ class Nodes:
     def __init__(self):
         self.node = tree()
 
-    def add_node(self,attribute):
-        self.node[attribute]
+    #def add_node(self,attribute):
+    #    self.node[attribute]
         
 class Dataset:
 
     def __init__(self):
         self.instances = []
         self.attr_val_set = {}
+
+    def __getitem__(self,index):
+        return self.instances[index]
 
     def add_attributes(self,attributes):
         """ add all attribtues at once  """
