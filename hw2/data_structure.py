@@ -1,4 +1,5 @@
 from collections import defaultdict
+import itertools
 def tree(): return defaultdict(tree)
 
 class Nodes:
@@ -15,8 +16,14 @@ class Dataset:
         self.instances = []
         self.attr_val_set = {}
 
+    def __iter__(self):
+        return iter(self.instances)
+
     def __getitem__(self,index):
         return self.instances[index]
+
+    def __len__(self):
+        return len(self.instances)
 
     def add_attributes(self,attributes):
         """ add all attribtues at once  """
@@ -34,7 +41,7 @@ class Instance:
         self.attr_val_set = self.read_instance_line()
 
     def __iter__(self):
-        return self.attr_val_set.itervalues()
+        return iter(self.attr_val_set)
 
     def __getitem__(self,attribute):
         return self.attr_val_set[attribute]
