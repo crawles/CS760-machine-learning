@@ -9,5 +9,6 @@ trn = train.Train(train_set)
 trn.calc_all_cond_prob()
 
 tst = test.Test(test_set,trn)
+tst.print_naive()
 
 

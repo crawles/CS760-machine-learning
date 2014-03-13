@@ -1,3 +1,4 @@
+import helper_functions as helper
 #from collections import defaultdict
 #
 #def tree(): return defaultdict(tree)
@@ -12,13 +13,34 @@
 #n.node['val1']['subval2']['subval3'] = 'subval3' 
 #
 t=train.Train(train_set)
-ni = 0
-n = 0
+ci = 0
+ai = 0
 for i in train_set:
-    if i['class'] == 'malign_lymph':
-        ni = ni + 1
-        if i['lymphatics'] == 'arched':
-            n = n + 1
+    if i['class'] == 'metastases':
+        ci = ci + 1
+        if i['by_pass'] == 'no':
+            ai = ai + 1
 
-t=train.Train(train_set)
+print (ai+1)/((ci+1)*1.0)
 
+instance = train_set[4]
+instance_keys = instance.attr_val_set.keys()
+instance_keys.remove('class')
+
+
+clas_key_val = ('class','metastases')
+result = 1
+for key in instance_keys:
+    key_val = (key,instance[key])
+    cond_prob =  trn.nodes[key_val][clas_key_val]
+    result = helper.log_mult(result,cond_prob)
+
+clas_key_val = ('class','malign_lymph')
+result0 = 1
+for key in instance_keys:
+    key_val = (key,instance[key])
+    cond_prob =  trn.nodes[key_val][clas_key_val]
+    result0 = helper.log_mult(result0,cond_prob)
+
+print result0/(result+result0)
+print result/(result+result0)
