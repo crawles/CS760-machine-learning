@@ -12,7 +12,6 @@ import helper_functions as helper
 #n.node['val1']['subkey1'] = 'subval2' 
 #n.node['val1']['subval2']['subval3'] = 'subval3' 
 #
-t=train.Train(train_set)
 ci = 0
 ai = 0
 for i in train_set:
@@ -20,8 +19,7 @@ for i in train_set:
         ci = ci + 1
         if i['by_pass'] == 'no':
             ai = ai + 1
-
-print (ai+1)/((ci+1)*1.0)
+float(ci)/len(train_set)
 
 instance = train_set[4]
 instance_keys = instance.attr_val_set.keys()
