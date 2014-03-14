@@ -26,6 +26,7 @@ class Dataset:
         """ add instance list """
         self.instances = self.instances + instances
 
+
 class Instance:
 
     def __init__(self,attribute_names,attribute_vals):

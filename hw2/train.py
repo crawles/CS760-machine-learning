@@ -33,7 +33,8 @@ class Train():
             num_Yy = total - self.key_val_not_in_dataset(Yy) + laplace
         else:
             #not conditioned. i.e P(Yy)
-            num_Yy = total + 2 #2 classes
+            laplace = self.laplace(Xx)
+            num_Yy = total + laplace #2 classes
             Yy = {}
         num_Xx = total - self.key_val_not_in_dataset(dict(Xx.items() + Yy.items()))
         return (num_Xx+1)/(num_Yy) #laplace
@@ -52,7 +53,8 @@ class Train():
         return {key:self.dataset.attr_val_set(key)}
 
     def calc_all_cond_prob(self):
-        """ calc both P(Xx|Yy) and P(Xx,Xx1,|Yy) 
+        """ build self.nodes
+        calc both P(Xx|Yy) and P(Xx,Xx1,|Yy) 
         where Xx = attributes, Yy = class_vals """
         attr_keys = list(self.dataset.attr_val_set.keys())
         attr_keys.remove('class')
@@ -60,14 +62,13 @@ class Train():
             #P(Yy)
             self.nodes[('class',Yy)] = self.calc_P({'class':Yy},None)
             for X in attr_keys:
-                #sub_attr_keys = attr_keys 
-                #sub_attr_keys.remove(X)
+                sub_attr_keys = list(attr_keys)
+                sub_attr_keys.remove(X)
                 for Xx in self.dataset.attr_val_set[X]:
                     self.nodes[(X,Xx)][('class',Yy)] = self.calc_P({X:Xx},{'class':Yy}) #P(Xx|Yy)
-                    for X1 in attr_keys:
+                    for X1 in sub_attr_keys:
                         for Xx1 in self.dataset.attr_val_set[X1]:
-                            #TODO need this for TAN
-                            #self.nodes[((X,Xx),(X1,Xx1))][('class',Yy)] = self.calc_P({X:Xx},{X:Xx1,'class':Yy}) #P(Xx,Xx1,|Yy)
-                            pass
+                            self.nodes[((X,Xx),(X1,Xx1))][('class',Yy)] = self.calc_P({X:Xx,X1:Xx1},{'class':Yy}) #P(Xx,Xx1,|Yy)
+                            self.nodes[(X,Xx)][(X1,Xx1),('class',Yy)] = self.calc_P({X:Xx},{X1:Xx1,'class':Yy}) #P(Xx|Xx1,Yy)
                     
 
