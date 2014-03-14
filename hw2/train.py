@@ -108,22 +108,21 @@ class Information:
         attr_keys.remove('class')
 
         n = 0
-        for Yy in self.trn.dataset.attr_val_set['class']:
-            for X in attr_keys:
+        for X in attr_keys:
+            sub_attr_keys = list(attr_keys)
+            sub_attr_keys.remove(X)
+            for X1 in sub_attr_keys:
                 IXX1_Y = 0
-                sub_attr_keys = list(attr_keys)
-                sub_attr_keys.remove(X)
                 for Xx in self.trn.dataset.attr_val_set[X]:
-                    for X1 in sub_attr_keys:
-                        for Xx1 in self.trn.dataset.attr_val_set[X1]:
+                    for Xx1 in self.trn.dataset.attr_val_set[X1]:
+                        for Yy in self.trn.dataset.attr_val_set['class']:
                             X_Xx,X1_Xx1,Y_Yy = (X,Xx),(X1,Xx1),('class',Yy)
                             Ixx1_y = self.calc_cond_mut_info(X_Xx,X1_Xx1,Y_Yy)
                             IXX1_Y = IXX1_Y + Ixx1_y
-                    n = n + 1
-                    print IXX1_Y
-            print len(attr_keys)
-            print len(sub_attr_keys)
-            print n
+                print len(attr_keys),len(sub_attr_keys)
+                print IXX1_Y
+                n = n + 1
+        print n
 
     def calc_cond_mut_info(self,X_Xx,X1_Xx1,Y_Yy):
         Pxx1y = self.trn.nodes[(X_Xx,X1_Xx1,Y_Yy)]
