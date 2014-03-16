@@ -80,6 +80,9 @@ class Information:
         self.trn = trn
         self.info = data.Nodes() 
         self.prims = data.Nodes() 
+        self.assign_cond_mut_info()
+        self.prims_tree()
+
 
     def assign_cond_mut_info(self):
         attr_keys = list(self.trn.dataset.attr_val_set.keys())
@@ -124,10 +127,10 @@ class Information:
             for u in V_new:
                 for v in V_cur:
                     uv_names.append((u,v))
-                    uv.append(self.info[(u,v)])
+                    uv.append(self.info[v][u])
                     
             uv_name = self.prims_max_edge(uv_names,uv)
-            self.prims[uv_name]
+            self.prims[uv_name[1]][uv_name[0]]
             V_new.append(uv_name[1])
             V_cur.remove(uv_name[1])
 

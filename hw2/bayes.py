@@ -9,7 +9,6 @@ trn = train.Train(train_set)
 trn.calc_all_cond_prob()
 
 I = train.Information(trn)
-I.assign_cond_mut_info()
 #trn.nodes['class','metastases']=.57
 #trn.nodes['class','malign_lymph ']=1-.57
 
