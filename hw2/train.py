@@ -79,35 +79,12 @@ class Information:
     def __init__(self,trn):
         self.trn = trn
         self.info = data.Nodes() 
-        pass
+        self.prims = data.Nodes() 
 
-#    def assign_cond_mut_info(self):
-#        attr_keys = list(self.trn.dataset.attr_val_set.keys())
-#        attr_keys.remove('class')
-#
-#        n = 0
-#        for Yy in self.trn.dataset.attr_val_set['class']:
-#            for X in attr_keys:
-#                IXX1_Y = 0
-#                sub_attr_keys = list(attr_keys)
-#                sub_attr_keys.remove(X)
-#                for Xx in self.trn.dataset.attr_val_set[X]:
-#                    for X1 in sub_attr_keys:
-#                        for Xx1 in self.trn.dataset.attr_val_set[X1]:
-#                            X_Xx,X1_Xx1,Y_Yy = (X,Xx),(X1,Xx1),('class',Yy)
-#                            Ixx1_y = self.calc_cond_mut_info(X_Xx,X1_Xx1,Y_Yy)
-#                            IXX1_Y = IXX1_Y + Ixx1_y
-#                    n = n + 1
-#                    print IXX1_Y
-#            print len(attr_keys)
-#            print len(sub_attr_keys)
-#            print n
-            
     def assign_cond_mut_info(self):
         attr_keys = list(self.trn.dataset.attr_val_set.keys())
         attr_keys.remove('class')
 
-        n = 0
         for X in attr_keys:
             sub_attr_keys = list(attr_keys)
             sub_attr_keys.remove(X)
@@ -119,10 +96,7 @@ class Information:
                             X_Xx,X1_Xx1,Y_Yy = (X,Xx),(X1,Xx1),('class',Yy)
                             Ixx1_y = self.calc_cond_mut_info(X_Xx,X1_Xx1,Y_Yy)
                             IXX1_Y = IXX1_Y + Ixx1_y
-                print len(attr_keys),len(sub_attr_keys)
-                print IXX1_Y
-                n = n + 1
-        print n
+                self.info[X][X1] = IXX1_Y 
 
     def calc_cond_mut_info(self,X_Xx,X1_Xx1,Y_Yy):
         Pxx1y = self.trn.nodes[(X_Xx,X1_Xx1,Y_Yy)]
@@ -134,4 +108,52 @@ class Information:
         Px_yPx1_y = helper.log_mult(Px_y,Px1_y)  
         return Pxx1y*math.log(Pxx1_y/Px_yPx1_y,2)
 
+
+    def prims_tree(self):
+        attributes = self.trn.dataset.instances[0].attribute_names[:]
+        init_vertex = attributes[0] #first attribute from arff
+        attributes.remove('class')
+
+        V_new = [init_vertex]
+        V_cur = attributes[:]
+        V_cur.remove(init_vertex)
+        E_new = []
+        while len(V_new) != len(attributes):
+            uv_names = []
+            uv = []
+            for u in V_new:
+                for v in V_cur:
+                    uv_names.append((u,v))
+                    uv.append(self.info[(u,v)])
+                    
+            uv_name = self.prims_max_edge(uv_names,uv)
+            self.prims[uv_name]
+            V_new.append(uv_name[1])
+            V_cur.remove(uv_name[1])
+
+    def prims_max_edge(self,uv_names,UV):
+        #TODO test this with more examples
+        attributes = self.trn.dataset.instances[0].attribute_names[:]
+        attributes.remove('class')
+        
+        maxval = max(UV)
+        max_uv_names = [uv_names[i] for i,uv in enumerate(UV) if uv == maxval]
+        # choose first
+        first_u = []
+        for attribute in attributes:
+            for uv_name in max_uv_names: 
+                if uv_name[0] == attribute:
+                    for _uv_name in max_uv_names: 
+                        if _uv_name[0] == attribute:
+                            first_u.append(uv_name)
+                    break
+
+        for attribute in attributes:
+            for uv_name in first_u: 
+                if uv_name[1] == attribute:
+                    return uv_name
+
+
+        
+        
 

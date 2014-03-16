@@ -42,3 +42,6 @@ for key in instance_keys:
 
 print result0/(result+result0)
 print result/(result+result0)
+
+attributes = trn.dataset[0].attribute_names
+
